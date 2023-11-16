@@ -21,7 +21,7 @@ module.exports = {
     },
   ],
   'parserOptions': {
-    'ecmaVersion': 'latest',
+    'ecmaVersion': '2023',
     'sourceType': 'module',
   },
   'plugins': [
