@@ -1,22 +1,17 @@
 <script setup>
+import {ref} from 'vue';
 
 const name = 'Vue 3';
-const arrayColors = ['blue', 'red'];
-const activo = true;
-const arraList = [1, 2, 3, 4];
-const frutas = [
-  {
-    name: 'Pera',
-    price: '23€',
-  },
-  {
-    name: 'Manzana',
-    price: '20€',
-  },
-];
-const objeto = {
-  nombre: 'Malo',
-  apellido: 'malisimo',
+const cuenta = ref(0);
+
+const sumar = () => {
+  cuenta.value++;
+};
+const restar = () => {
+  cuenta.value--;
+};
+const reiniciar = () => {
+  cuenta.value = 0;
 };
 </script>
 
@@ -24,42 +19,17 @@ const objeto = {
   <h1>
     Hola {{ name.toUpperCase() }}
   </h1>
+  <h2>{{ cuenta }}</h2>
   <br>
-  <h2 :style="`color: ${arrayColors[0]}`">
-    {{ activo ? "activo" : "inactivo" }}
-  </h2>
-  <h3 v-if="activo">
-    Hola
-  </h3>
-  <h3 v-else-if="!activo">
-    Adeu
-  </h3>
-  <ul>
-    <li
-      v-for="(item, index) in arraList"
-      :key="index"
-    >
-      {{ item }}
-    </li>
-  </ul>
-  <ul>
-    <li
-      v-if="item.price > 0"
-      v-for="item in frutas"
-      :key="item.name"
-    >
-      {{ item.name }} - {{ item.price }}
-    </li>
-  </ul>
-
-  <ul>
-    <li
-      v-for="(value, propiedad, index ) in objeto"
-      :key="index"
-    >
-      {{ index }} - {{ propiedad }} : {{ value }}
-    </li>
-  </ul>
+  <button @click.right.prevent="sumar">
+    Sumar
+  </button>
+  <button @click.left="restar">
+    Resta
+  </button>
+  <button @click.middle="reiniciar">
+    Reiniciar
+  </button>
 </template>
 
 <style>
