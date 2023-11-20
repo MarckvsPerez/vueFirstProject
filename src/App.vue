@@ -82,13 +82,6 @@ const addNumber = () => {
 </template>
 
 <style>
-div {
-  text-align: center;
-}
-
-li {
-  list-style: none;
-}
 
 .title {
   text-align: center;
