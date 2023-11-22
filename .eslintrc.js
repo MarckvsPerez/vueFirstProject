@@ -29,5 +29,6 @@ module.exports = {
   ],
   'rules': {
     'linebreak-style': 'off',
+    'vue/attribute-hyphenation': 'off',
   },
 };
