@@ -1,84 +1,86 @@
 <script setup>
-import {ref, onMounted} from 'vue';
-
-import BlogPost from './components/BlogPost.vue';
-import PaginatedPost from '@/components/PaginatedPost.vue';
-import LoadingSpinner from '@/components/LoadingSpinner.vue';
-
-const posts = ref([]);
-
-const postPorPagina = 10;
-const inicio = ref(0);
-const fin = ref(postPorPagina);
-const fav = ref('');
-const loading = ref(true);
-
-const cambiarFavorito = (title) => {
-  fav.value = title;
-};
-
-const next = () => {
-  inicio.value += postPorPagina;
-  fin.value += postPorPagina;
-};
-
-const prev = () => {
-  inicio.value += -postPorPagina;
-  fin.value += -postPorPagina;
-};
-
-onMounted(async () => {
-  try {
-    const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-    posts.value = await res.json();
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setTimeout(() => {
-      loading.value= false;
-    }, 2000);
-  }
-});
-
+import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <LoadingSpinner v-if="loading" />
-  <div
-    class="container"
-    v-else
-  >
-    <h1>App</h1>
-    <h2>Mis post favorito: {{ fav }}</h2>
+  <nav class="navbar bg-light">
+  <div class="container">
 
+      <RouterLink to="/" class="navbar-brand" href="#">
+        <img src="@/assets/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+        PokeApi
+      </RouterLink>
+      <RouterLink to="/about" class="btn btn-outline-primary">About</RouterLink>
+      <RouterLink to="/pokemon" class="btn btn-outline-primary">Pokemon</RouterLink>
+      
+    </div>
+    </nav>
 
-    <PaginatedPost
-      @next-method="next"
-      @prev-method="prev"
-      :inicio="inicio"
-      :fin="fin"
-      :max="posts.length"
-    />
-
-    <BlogPost
-      class="mb-2"
-      v-for="post in posts.slice(inicio, fin)"
-      :key="post"
-      :title="post.title"
-      :body="post.body"
-      :colorText="post.colorText"
-      @cambiar-favorito="cambiarFavorito"
-    />
+  <div class="container">
+    <RouterView />
   </div>
 </template>
 
-<style>
-h1 {
-  color: #ffffff;
-  font-family: 'Lato', sans-serif;
-  font-size: 54px;
-  font-weight: 300;
-  line-height: 58px;
-  margin: 0 0 58px;
+<style scoped>
+header {
+  line-height: 1.5;
+  max-height: 100vh;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 2rem;
+}
+
+nav {
+  width: 100%;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+nav a.router-link-exact-active {
+  color: var(--color-text);
+}
+
+nav a.router-link-exact-active:hover {
+  background-color: transparent;
+}
+
+nav a {
+  display: inline-block;
+  padding: 0 1rem;
+  border-left: 1px solid var(--color-border);
+}
+
+nav a:first-of-type {
+  border: 0;
+}
+
+@media (min-width: 1024px) {
+  header {
+    display: flex;
+    place-items: center;
+    padding-right: calc(var(--section-gap) / 2);
+  }
+
+  .logo {
+    margin: 0 2rem 0 0;
+  }
+
+  header .wrapper {
+    display: flex;
+    place-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  nav {
+    text-align: left;
+    margin-left: -1rem;
+    font-size: 1rem;
+
+    padding: 1rem 0;
+    margin-top: 1rem;
+  }
 }
 </style>
